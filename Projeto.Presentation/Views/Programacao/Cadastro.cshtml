@@ -1,0 +1,566 @@
+﻿@model Projeto.Presentation.Models.ProgramacaoCadastroViewModel
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@*Botão "voltar"*@
+@*<br />
+    <a class="col-sm-1 btn btn-outline-dark btn-md" href="@Request.UrlReferrer" role="button">Voltar</a>
+    <input class="col-sm-1 btn btn-outline-dark btn-md" display="none" type="button" name="back" value="Voltar" onClick=" javascript:history.back(-1);">*@
+
+@*Mensagens*@
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<strong class="text-danger">
+    @Html.Raw(@TempData["Mensagem"])
+</strong>
+<br />
+
+<div align="center">
+    <br />
+    <h4>Menu de programação</h4>
+    <hr />
+</div>
+
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-sm">
+            @*@Html.HiddenFor(model => model.Planejamento.PLA_IDENTIFICADOR)
+                @Html.HiddenFor(model => model.Planejamento.PLA_PROJETO)
+                @Html.HiddenFor(model => model.Planejamento.PLA_REGIONAL)
+                @Html.HiddenFor(model => model.Planejamento.PLA_DISPOSITIVO)
+                @Html.HiddenFor(model => model.Planejamento.PLA_UNIDADE)
+
+                @Html.HiddenFor(model => model.PRO_IDENTIFICADOR)
+                @Html.HiddenFor(model => model.PRO_MOTIVO)
+                @Html.HiddenFor(model => model.PRO_IMPACTO_CONH)
+                @Html.HiddenFor(model => model.PRO_IMPACTO_CONI)
+                @Html.HiddenFor(model => model.PRO_RECURSO_BIG_JUMPER)
+                @Html.HiddenFor(model => model.PRO_RECURSO_CHAVE_PROVISORIA)
+                @Html.HiddenFor(model => model.PRO_RECURSO_GERADOR)
+                @Html.HiddenFor(model => model.PRO_RECURSO_INTERLIGACAO_REDE)
+                @Html.HiddenFor(model => model.PRO_RECURSO_LINHA_VIVA)
+                @Html.HiddenFor(model => model.PRO_RECURSO_SEM_RECURSO)*@
+
+            @Html.HiddenFor(model => model.Planejamento.PLA_IDENTIFICADOR)
+            @Html.HiddenFor(model => model.Planejamento.PLA_PROJETO)
+            @Html.HiddenFor(model => model.Planejamento.PLA_REGIONAL)
+            @Html.HiddenFor(model => model.Planejamento.PLA_DISPOSITIVO)
+
+            <label>Impedimento para programação:</label>
+            <br />
+            @Html.RadioButtonFor(model => model.PRO_IMPEDIMENTO, 1, new { id = "ImpedimentoSim", @class = "PRO_IMPEDIMENTO" })
+            @Html.Label("Sim")
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.RadioButtonFor(model => model.PRO_IMPEDIMENTO, 0, new { id = "ImpedimentoNao", @class = "PRO_IMPEDIMENTO", })
+            @Html.Label("Não")
+            <br />
+
+            <label>Selecione o motivo:</label>
+            @Html.DropDownListFor(model => model.PRO_MOTIVO,
+            Model.MotivosList,
+            "Escolha uma opção",
+            new { @class = "form-control", id = "PRO_MOTIVO" })
+            <br />
+
+            <label>Data da programação:</label>
+            @Html.TextBoxFor(model => model.PRO_DATA_PROGRAMACAO, "{0:yyyy-MM-dd}",
+            //Model.PRO_DATA_PROGRAMACAO.ToString("yyyy-MM-dd"),
+            new { @class = "form-control", @type = "date", id = "PRO_DATA_PROGRAMACAO" })
+            <br />
+
+            <label>Hora início programação:</label>
+            @Html.TextBoxFor(model => model.PRO_HORA_INICIO_PROGRAMACAO, "{0:HH:mm}",
+            //Model.PRO_HORA_INICIO_PROGRAMACAO.ToString("hh:mm"),
+            new { @class = "form-control", @type = "time", id = "PRO_HORA_INICIO_PROGRAMACAO" })
+            <br />
+
+            <label>Hora término programação:</label>
+            @Html.TextBoxFor(model => model.PRO_HORA_TERMINO_PROGRAMACAO, "{0:HH:mm}",
+            //Model.PRO_HORA_TERMINO_PROGRAMACAO.ToString("hh:mm"),
+            new { @class = "form-control", @type = "time", id = "PRO_HORA_TERMINO_PROGRAMACAO" })
+            <br />
+
+            <label>Quantidade a programação (Unidade: @Html.ValueFor(model => model.Planejamento.PLA_UNIDADE)):</label>
+            @Html.TextBoxFor(model => model.PRO_QUANTIDADE_A_PROGRAMAR,
+            new { @class = "form-control", id = "PRO_QUANTIDADE_A_PROGRAMAR" })
+            <br />
+
+            <label>Observação:</label>
+            @Html.TextAreaFor(model => model.PRO_OBSERVACAO,
+            new { @class = "form-control", id = "PRO_OBSERVACAO" })
+            <br />
+        </div>
+        <div class="col-sm">
+            <label>Dispositivo:</label>
+            @Html.TextBoxFor(model => model.PRO_DISPOSITIVO,
+            new { @class = "form-control", id = "PRO_DISPOSITIVO" })
+            <br />
+
+            <label>Quantidade de clientes:</label>
+            @Html.TextBoxFor(model => model.PRO_QUANTIDADE_CLIENTE,
+            new { @class = "form-control", id = "PRO_QUANTIDADE_CLIENTE" })
+            <br />
+
+            <label>Impacto CONH:</label>
+            @Html.TextBoxFor(model => model.PRO_IMPACTO_CONH,
+            new { @class = "form-control", id = "PRO_IMPACTO_CONH" })
+            <br />
+
+            <label>Impacto CONI:</label>
+            @Html.TextBoxFor(model => model.PRO_IMPACTO_CONI,
+            new { @class = "form-control", id = "PRO_IMPACTO_CONI" })
+            <br />
+
+            <label>Desligamento:</label>
+            <br />
+            @Html.RadioButtonFor(model => model.PRO_DESLIGAMENTO, 1, new { id = "DesligamentoSim", @class = "PRO_DESLIGAMENTO", @checked = true })
+            @Html.Label("Sim")
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            @Html.RadioButtonFor(model => model.PRO_DESLIGAMENTO, 0, new { id = "DesligamentoNao", @class = "PRO_DESLIGAMENTO", @checked = true })
+            @Html.Label("Não")
+            <br />
+
+            <label>Hora início SGD:</label>
+            @Html.TextBoxFor(model => model.PRO_HORA_INICIO_SGD, "{0:HH:mm}",
+            //Model.PRO_HORA_INICIO_SGD.ToString("hh:mm"),
+            new { @class = "form-control", @type = "time", id = "PRO_HORA_INICIO_SGD" })
+            <br />
+
+            <label>Hora término SGD:</label>
+            @Html.TextBoxFor(model => model.PRO_HORA_TERMINO_SGD, "{0:HH:mm}",
+            //Model.PRO_HORA_TERMINO_SGD.ToString("hh:mm"),
+            new { @class = "form-control", @type = "time", id = "PRO_HORA_TERMINO_SGD" })
+            <br />
+
+            <label>Número SGD:</label>
+            @Html.TextBoxFor(model => model.PRO_NUMERO_SGD,
+            new { @class = "form-control", id = "PRO_NUMERO_SGD" })
+            <br />
+
+            <div align="center">
+                <label><b>Recursos utilizados:</b></label>
+            </div>
+            <div class="border border-primary">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <br />
+                            @Html.CheckBoxFor(model => model.PRO_RECURSO_BIG_JUMPER, new { id = "PRO_RECURSO_BIG_JUMPER", @class = "PRO_RECURSO_BIG_JUMPER" })
+                            @Html.LabelFor(model => model.PRO_RECURSO_BIG_JUMPER)
+                            <br />
+                            @Html.CheckBoxFor(model => model.PRO_RECURSO_CHAVE_PROVISORIA, new { id = "PRO_RECURSO_CHAVE_PROVISORIA", @class = "PRO_RECURSO_CHAVE_PROVISORIA" })
+                            @Html.LabelFor(model => model.PRO_RECURSO_CHAVE_PROVISORIA)
+                            <br />
+                            @Html.CheckBoxFor(model => model.PRO_RECURSO_GERADOR, new { id = "PRO_RECURSO_GERADOR", @class = "PRO_RECURSO_GERADOR" })
+                            @Html.LabelFor(model => model.PRO_RECURSO_GERADOR)
+                            <br />
+                            <br />
+                        </div>
+                        <div>
+                            <br />
+                            @Html.CheckBoxFor(model => model.PRO_RECURSO_INTERLIGACAO_REDE, new { id = "PRO_RECURSO_INTERLIGACAO_REDE", @class = "PRO_RECURSO_INTERLIGACAO_REDE" })
+                            @Html.LabelFor(model => model.PRO_RECURSO_INTERLIGACAO_REDE)
+                            <br />
+                            @Html.CheckBoxFor(model => model.PRO_RECURSO_LINHA_VIVA, new { id = "PRO_RECURSO_LINHA_VIVA", @class = "PRO_RECURSO_LINHA_VIVA" })
+                            @Html.LabelFor(model => model.PRO_RECURSO_LINHA_VIVA)
+                            <br />
+                            @Html.CheckBoxFor(model => model.PRO_RECURSO_SEM_RECURSO, new { id = "PRO_RECURSO_SEM_RECURSO", @class = "PRO_RECURSO_SEM_RECURSO", @checked = true })
+                            @Html.LabelFor(model => model.PRO_RECURSO_SEM_RECURSO)
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm">
+            <h4 align="center">EQUIPES</h4>
+            <div class="container-fluid" id="replacetarget">
+                @*@{ Html.RenderAction("Consulta", "Equipe", new { id = Model.PLA_REGIONAL, idProgramacao = 0 }); }*@
+                @{ Html.RenderAction("Consulta", "Equipe", new { id = Model.PLA_REGIONAL }); }
+            </div>
+            <br />
+        </div>
+
+
+    </div>
+
+    <div id='myModal' class='modal fade in'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <input class="btn btn-primary" type="submit" id="GravarProgramacao" name="GravarProgramacao" value="Gravar" onclick="return validarGravarProgramacao(this)" />
+    <hr />
+    <br />
+}
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
+    });
+
+    var telaInicial;
+    var id;
+    var regional;
+    var impedimentoSim;
+    var impedimentoNao;
+    var recursoBigJumper;
+    var recursoChaveProvisoria;
+    var recursoGerador;
+    var recursoInterligacaoRede;
+    var recursoLinhaViva;
+    var dataAtualCompleta;
+    var dataAtual;
+    var horaAtual;
+    var dataProgramacao;
+    var horaProgramacaoInicial;
+    var horaProgramacaoFinal;
+    var horaSGDInicial;
+    var horaSGDFinal;
+
+
+    //document.getElementById("GravarProgramacao").disabled = true;
+
+    impedimentoSim = $('#ImpedimentoSim').is(':checked');
+    impedimentoNao = $('#ImpedimentoNao').is(':checked');
+
+    if ((!impedimentoSim) && (!impedimentoNao)) {
+        telaInicial = 1;
+    }
+
+    document.getElementById("PRO_MOTIVO").disabled = impedimentoNao || telaInicial;
+    document.getElementById("PRO_DATA_PROGRAMACAO").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_HORA_INICIO_PROGRAMACAO").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_HORA_TERMINO_PROGRAMACAO").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_QUANTIDADE_A_PROGRAMAR").disabled = impedimentoSim || telaInicial;
+    document.getElementById("DesligamentoSim").disabled = impedimentoSim || telaInicial;
+    document.getElementById("DesligamentoNao").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_DISPOSITIVO").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_QUANTIDADE_CLIENTE").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_IMPACTO_CONH").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_IMPACTO_CONI").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_HORA_INICIO_SGD").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_HORA_TERMINO_SGD").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_NUMERO_SGD").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_RECURSO_BIG_JUMPER").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_RECURSO_CHAVE_PROVISORIA").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_RECURSO_GERADOR").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_RECURSO_INTERLIGACAO_REDE").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_RECURSO_LINHA_VIVA").disabled = impedimentoSim || telaInicial;
+    document.getElementById("PRO_RECURSO_SEM_RECURSO").disabled = impedimentoSim || telaInicial;
+
+    document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = impedimentoSim || telaInicial || document.getElementById("PRO_RECURSO_SEM_RECURSO").checked;
+
+
+    $('.PRO_IMPEDIMENTO').change(function () {
+        //var impedimentoSim = $('#ImpedimentoSim').filter(':checked').val();
+        //var impedimentoNao = $('#ImpedimentoNao').filter(':checked').val();
+        impedimentoSim = $('#ImpedimentoSim').is(':checked') ? 1 : 0;
+        impedimentoNao = $('#ImpedimentoNao').is(':checked') ? 1 : 0;
+
+        document.getElementById("PRO_MOTIVO").disabled = impedimentoNao;
+        document.getElementById("PRO_DATA_PROGRAMACAO").disabled = impedimentoSim;
+        document.getElementById("PRO_HORA_INICIO_PROGRAMACAO").disabled = impedimentoSim;
+        document.getElementById("PRO_HORA_TERMINO_PROGRAMACAO").disabled = impedimentoSim;
+        document.getElementById("PRO_QUANTIDADE_A_PROGRAMAR").disabled = impedimentoSim;
+        document.getElementById("DesligamentoSim").disabled = impedimentoSim;
+        document.getElementById("DesligamentoNao").disabled = impedimentoSim;
+        document.getElementById("PRO_DISPOSITIVO").disabled = impedimentoSim;
+        document.getElementById("PRO_QUANTIDADE_CLIENTE").disabled = impedimentoSim;
+        document.getElementById("PRO_IMPACTO_CONH").disabled = impedimentoSim;
+        document.getElementById("PRO_IMPACTO_CONI").disabled = impedimentoSim;
+        document.getElementById("PRO_HORA_INICIO_SGD").disabled = impedimentoSim;
+        document.getElementById("PRO_HORA_TERMINO_SGD").disabled = impedimentoSim;
+        document.getElementById("PRO_NUMERO_SGD").disabled = impedimentoSim;
+        document.getElementById("PRO_RECURSO_BIG_JUMPER").disabled = impedimentoSim;
+        document.getElementById("PRO_RECURSO_CHAVE_PROVISORIA").disabled = impedimentoSim;
+        document.getElementById("PRO_RECURSO_GERADOR").disabled = impedimentoSim;
+        document.getElementById("PRO_RECURSO_INTERLIGACAO_REDE").disabled = impedimentoSim;
+        document.getElementById("PRO_RECURSO_LINHA_VIVA").disabled = impedimentoSim;
+        document.getElementById("PRO_RECURSO_SEM_RECURSO").disabled = impedimentoSim;
+
+        if (impedimentoSim == 1) {
+            onClickRecursoSemRecurso();
+        }
+    });
+
+    $('.PRO_RECURSO_BIG_JUMPER').change(function () {
+        recursoBigJumper = $('#PRO_RECURSO_BIG_JUMPER').is(':checked') ? 1 : 0;
+        if (recursoBigJumper) {
+            document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = false;
+        }
+    });
+
+    $('.PRO_RECURSO_CHAVE_PROVISORIA').change(function () {
+        recursoChaveProvisoria = $('#PRO_RECURSO_CHAVE_PROVISORIA').is(':checked') ? 1 : 0;
+        if (recursoChaveProvisoria) {
+            document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = false;
+        }
+    });
+
+    $('.PRO_RECURSO_GERADOR').change(function () {
+        recursoGerador = $('#PRO_RECURSO_GERADOR').is(':checked') ? 1 : 0;
+        if (recursoGerador) {
+            document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = false;
+        }
+    });
+
+    $('.PRO_RECURSO_INTERLIGACAO_REDE').change(function () {
+        recursoInterligacaoRede = $('#PRO_RECURSO_INTERLIGACAO_REDE').is(':checked') ? 1 : 0;
+        if (recursoInterligacaoRede) {
+            document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = false;
+        }
+    });
+
+    $('.PRO_RECURSO_LINHA_VIVA').change(function () {
+        recursoLinhaViva = $('#PRO_RECURSO_LINHA_VIVA').is(':checked') ? 1 : 0;
+        if (recursoLinhaViva) {
+            document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = false;
+        }
+    });
+
+    $('.PRO_RECURSO_SEM_RECURSO').change(function () {
+        onClickRecursoSemRecurso();
+    });
+
+    onClickRecursoSemRecurso = function () {
+        impedimentoSim = $('#ImpedimentoSim').is(':checked') ? 1 : 0;
+
+        if (impedimentoSim) {
+            document.getElementById("PRO_RECURSO_SEM_RECURSO").checked = true;
+        }
+
+        if (document.getElementById("PRO_RECURSO_SEM_RECURSO").checked) {
+            document.getElementById("PRO_RECURSO_BIG_JUMPER").checked = false;
+            document.getElementById("PRO_RECURSO_CHAVE_PROVISORIA").checked = false;
+            document.getElementById("PRO_RECURSO_GERADOR").checked = false;
+            document.getElementById("PRO_RECURSO_INTERLIGACAO_REDE").checked = false;
+            document.getElementById("PRO_RECURSO_LINHA_VIVA").checked = false;
+        }
+    }
+
+    function onClickBotaoInserirEquipe() {
+        id = $('#PRO_PLA_IDENTIFICADOR').val();
+        regional = $('#PLA_REGIONAL').val();
+
+        if (id != "" && regional != "") {
+            window.location.href = "/Equipe/Cadastro?PRO_PLA_IDENTIFICADOR=" + id + "&PLA_REGIONAL=" + regional;
+        }
+        else {
+            alert('TODO: sem ID de programação');
+        };
+    }
+
+    function validarGravarProgramacao(element) {
+        //SIM ou NÃO sem marcação
+        if (!impedimentoSim && !impedimentoNao) {
+            alert('Favor selecionar o impedimento.');
+            return false;
+        }
+
+        //SIM
+        if (($('#ImpedimentoSim').is(':checked') ? 1 : 0) &&
+            //motivo
+            (($('#PRO_MOTIVO').val() == null) || ($('#PRO_MOTIVO').val() == ""))) {
+            alert('Favor selecionar o motivo.');
+            element.form.PRO_MOTIVO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //data da programação
+            (($('#PRO_DATA_PROGRAMACAO').val() == null) || ($('#PRO_DATA_PROGRAMACAO').val() == ""))) {
+            alert('Favor preencher a data da programação.');
+            element.form.PRO_DATA_PROGRAMACAO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora início da programação
+            (($('#PRO_HORA_INICIO_PROGRAMACAO').val() == null) || ($('#PRO_HORA_INICIO_PROGRAMACAO').val() == ""))) {
+            alert('Favor preencher a hora de início da programação.');
+            element.form.PRO_HORA_INICIO_PROGRAMACAO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora término da programação
+            (($('#PRO_HORA_TERMINO_PROGRAMACAO').val() == null) || ($('#PRO_HORA_TERMINO_PROGRAMACAO').val() == ""))) {
+            alert('Favor preencher a hora de término da programação.');
+            element.form.PRO_HORA_TERMINO_PROGRAMACAO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //quantidade a programar
+            (($('#PRO_QUANTIDADE_A_PROGRAMAR').val() == null) || ($('#PRO_QUANTIDADE_A_PROGRAMAR').val() == ""))) {
+            alert('Favor preencher a quantidade a programar.');
+            element.form.PRO_QUANTIDADE_A_PROGRAMAR.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //dispositivo
+            (($('#PRO_DISPOSITIVO').val() == null) || ($('#PRO_DISPOSITIVO').val() == ""))) {
+            alert('Favor preencher o dispositivo.');
+            element.form.PRO_DISPOSITIVO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //quantidade de clientes
+            (($('#PRO_QUANTIDADE_CLIENTE').val() == null) || ($('#PRO_QUANTIDADE_CLIENTE').val() == ""))) {
+            alert('Favor preencher a quantidade de clientes.');
+            element.form.PRO_QUANTIDADE_CLIENTE.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora início SGD
+            (($('#PRO_HORA_INICIO_SGD').val() == null) || ($('#PRO_HORA_INICIO_SGD').val() == ""))) {
+            alert('Favor preencher a hora de início SGD.');
+            element.form.PRO_HORA_INICIO_SGD.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora término SGD
+            (($('#PRO_HORA_TERMINO_SGD').val() == null) || ($('#PRO_HORA_TERMINO_SGD').val() == ""))) {
+            alert('Favor preencher a hora de término SGD.');
+            element.form.PRO_HORA_TERMINO_SGD.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //número SGD
+            (($('#PRO_NUMERO_SGD').val() == null) || ($('#PRO_NUMERO_SGD').val() == ""))) {
+            alert('Favor preencher o número SGD.');
+            element.form.PRO_NUMERO_SGD.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //impacto CONH
+            (($('#PRO_IMPACTO_CONH').val() == null) || ($('#PRO_IMPACTO_CONH').val() == ""))) {
+            alert('Favor preencher o impacto CONH.');
+            element.form.PRO_IMPACTO_CONH.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //impacto CONI
+            (($('#PRO_IMPACTO_CONI').val() == null) || ($('#PRO_IMPACTO_CONI').val() == ""))) {
+            alert('Favor preencher o impacto CONI.');
+            element.form.PRO_IMPACTO_CONI.focus();
+            return false;
+        }
+
+
+        dataAtualCompleta = new Date()
+        dataAtual = dataAtualCompleta.getFullYear() + '-' + (("0" + dataAtualCompleta.getMonth() + 1).slice(-2)) + '-' + ("0" + dataAtualCompleta.getDate()).slice(-2);
+        horaAtual = dataAtualCompleta.getHours() + ":" + dataAtualCompleta.getMinutes();
+        dataProgramacao = $('#PRO_DATA_PROGRAMACAO').val();
+        horaProgramacaoInicial = $('#PRO_HORA_INICIO_PROGRAMACAO').val();
+        horaProgramacaoFinal = $('#PRO_HORA_TERMINO_PROGRAMACAO').val();
+        horaSGDInicial = $('#PRO_HORA_INICIO_SGD').val();
+        horaSGDFinal = $('#PRO_HORA_TERMINO_SGD').val();
+
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //data da programação
+            (dataProgramacao < dataAtual)) {
+            alert('A data da programação não pode ser menor que a data atual.');
+            element.form.PRO_DATA_PROGRAMACAO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora início da programação
+            ((dataProgramacao == dataAtual) &&
+                (horaProgramacaoInicial < horaAtual))) {
+            alert('A hora de início de programação não pode ser menor que a hora atual.');
+            element.form.PRO_HORA_INICIO_PROGRAMACAO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora término da programação
+            (horaProgramacaoFinal <= horaProgramacaoInicial)) {
+            alert('A hora de término de programação não pode ser menor ou igual a hora atual e data de início de programação.');
+            element.form.PRO_HORA_TERMINO_PROGRAMACAO.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //quantidade a programar
+            ($('#PRO_QUANTIDADE_A_PROGRAMAR').val() < 0)) {
+            alert('A quantidade a programar não pode ser menor que 0 (zero).');
+            element.form.PRO_QUANTIDADE_A_PROGRAMAR.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //quantidade de clientes
+            ($('#PRO_QUANTIDADE_CLIENTE').val() < 0)) {
+            alert('A quantidade de clientes não pode ser menor que 0 (zero).');
+            element.form.PRO_QUANTIDADE_CLIENTE.focus();
+            return false;
+        }
+
+        //NÃO
+        if (($('#ImpedimentoNao').is(':checked') ? 1 : 0) &&
+            //hora término SGD
+            (horaSGDFinal <= horaSGDInicial)) {
+            alert('A hora de término SGD não pode ser menor ou igual a hora de início SGD.');
+            element.form.PRO_HORA_TERMINO_SGD.focus();
+            return false;
+        }
+
+        if (!document.getElementById("PRO_RECURSO_BIG_JUMPER").checked &&
+            !document.getElementById("PRO_RECURSO_CHAVE_PROVISORIA").checked &&
+            !document.getElementById("PRO_RECURSO_GERADOR").checked &&
+            !document.getElementById("PRO_RECURSO_INTERLIGACAO_REDE").checked &&
+            !document.getElementById("PRO_RECURSO_LINHA_VIVA").checked &&
+            !document.getElementById("PRO_RECURSO_SEM_RECURSO").checked) {
+            alert('Favor selecionar um recurso.');
+            return false;
+        }
+
+        ////TODO: para testar NÂO vai dar o submit
+        //alert('GRAVOU !!!');
+        //return false;
+
+        return true;
+    }
+</script>

@@ -1,0 +1,53 @@
+﻿body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+    #chartdiv {
+      width: 100%;
+      height: 250px;
+    }
+
+    #chart-desvio-conh {
+       width: 100%;
+       height: 370px;
+    }
+
+    #chart-desvio-coni {
+      width: 100%;
+      height: 370px;
+    }
+
+    #chart-qualidade-manutencao-01 {
+        width: 100%;
+        height: 300px;
+    }
+
+    #chart-qualidade-manutencao-02 {
+         width: 100%;
+        height: 300px;
+    }
+
+    #chart-avanco-opex-01 {
+        width: 100%;
+        height: 300px;
+    }
+
+
+    #chart-obras-clientes {
+        width: 100%;
+        height: 250px;
+    }
+
+    #chart-dias-programacao {
+        width: 100%;
+        height: 300px;  
+    }
+
+    .container-painel {
+        padding: 2%;
+    }
+
+#graficos {
+    display: none;
+    width: 100%;
+}

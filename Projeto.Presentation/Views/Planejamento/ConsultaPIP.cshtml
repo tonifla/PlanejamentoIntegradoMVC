@@ -1,0 +1,240 @@
+﻿@model List<Projeto.Presentation.Models.PlanejamentoConsultaPIPViewModel>
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<strong class="text-danger">
+    @Html.Raw(@TempData["Mensagem"])
+</strong>
+<br />
+
+<br />
+<div class="container-fluid" align="center">
+
+    <table class="table table-hover table-bordered table-striped table-sm"
+           style="border: 3px solid #17a2b8;">
+        <thead>
+            <tr align="center">
+                <th class="bg-info text-white">RANKING FEC INICIAL NA </th>
+                <th class="bg-info text-white">CAUSA FEC INICIAL NA </th>
+                <th class="bg-info text-white">RANKING FEC ATUAL NA </th>
+                <th class="bg-info text-white">CAUSA FEC ATUAL NA </th>
+                <th class="bg-info text-white">RANKING DEC INICIAL NA </th>
+                <th class="bg-info text-white">CAUSA DEC INICIAL NA </th>
+                <th class="bg-info text-white">RANKING DEC ATUAL NA </th>
+                <th class="bg-info text-white">CAUSA DEC ATUAL NA </th>
+                <th class="bg-info text-white">RANKING FEC INICIAL NO CJ</th>
+                <th class="bg-info text-white">CAUSA FEC INICIAL NO CJ</th>
+                <th class="bg-info text-white">RANKING FEC ATUAL NO CJ</th>
+                <th class="bg-info text-white">CAUSA FEC ATUAL NO CJ</th>
+                <th class="bg-info text-white">RANKING DEC INICIAL NO CJ</th>
+                <th class="bg-info text-white">CAUSA DEC INICIAL NO CJ</th>
+                <th class="bg-info text-white">RANKING DEC ATUAL NO CJ</th>
+                <th class="bg-info text-white">CAUSA DEC ATUAL NO CJ</th>
+                <th class="bg-info text-white">RANKING FEC INICIAL NO POLO</th>
+                <th class="bg-info text-white">CAUSA FEC INICIAL NO POLO</th>
+                <th class="bg-info text-white">RANKING FEC ATUAL NO POLO</th>
+                <th class="bg-info text-white">CAUSA FEC ATUAL NO POLO</th>
+                <th class="bg-info text-white">RANKING DEC INICIAL NO POLO</th>
+                <th class="bg-info text-white">CAUSA DEC INICIAL NO POLO</th>
+                <th class="bg-info text-white">RANKING DEC ATUAL NO POLO</th>
+                <th class="bg-info text-white">CAUSA DEC ATUAL NO POLO</th>
+                <th class="bg-info text-white">EVOLUÇÃO FEC</th>
+                <th class="bg-info text-white">EVOLUÇÃO DEC</th>
+                <th class="bg-info text-white">RANKING CLIENTES</th>
+                <th class="bg-info text-white">REGIONAL</th>
+                <th class="bg-info text-white">BASE</th>
+                <th class="bg-info text-white">CONJUNTO</th>
+                <th class="bg-info text-white">ALIMENTADOR</th>
+                <th class="bg-info text-white">DISPOSITIVO</th>
+                <th class="bg-info text-white">TIPO DO DISPOSITIVO</th>
+                <th class="bg-info text-white">AÇÃO</th>
+                <th class="bg-info text-white">UNIDADE</th>
+                <th class="bg-info text-white">PROJETO</th>
+                <th class="bg-info text-white">QUANTIDADE EXECUTADA</th>
+                <th class="bg-info text-white">DATA META DA CONCLUSÃO DEFINIDA</th>
+                <th class="bg-info text-white">DATA DE EXECUÇÃO</th>
+                <th class="bg-info text-white">STATUS EXECUÇÃO</th>
+                <th class="bg-info text-white">QUANTIDADE PLANO ATUAL</th>
+                <th class="bg-info text-white">QUADRIMESTRE A EXECUTAR</th>
+                <th class="bg-info text-white">AVANÇO</th>
+                <th class="bg-info text-white">QUANTIDADE PENDENTE</th>
+                <th class="bg-info text-white">PROCESSO</th>
+                <th class="bg-info text-white">DATA CADASTRO</th>
+                <th class="bg-info text-white">PARCEIRA DE EXECUÇÃO</th>
+                <th class="bg-info text-white">ALOCAÇÃO DE RECURSO</th>
+                <th class="bg-info text-white">QUANTIDADE DE RECURSO</th>
+                <th class="bg-info text-white">STATUS PROGRAMAÇÃO</th>
+                <th class="bg-info text-white">DATA PROGRAMADA PARA EXECUÇÃO</th>
+                <th class="bg-info text-white">STATUS EXECUÇÃO</th>
+                <th class="bg-info text-white">DATA REAL DA EXECUÇÃO / ETAPA</th>
+                <th class="bg-info text-white">NECESSÁRIO DESLIGAMENTO PROGRAMADO?</th>
+                <th class="bg-info text-white">META PROGRAMADA CONH MÊS</th>
+                <th class="bg-info text-white">META PROGRAMADA CONI MÊS</th>
+                <th class="bg-info text-white">META PROGRAMADA CONH DIÁRIO</th>
+                <th class="bg-info text-white">META PROGRAMADA CONI DIÁRIO</th>
+                <th class="bg-info text-white">HORA INICIAL OBRA</th>
+                <th class="bg-info text-white">HORA TÉRMINO OBRA</th>
+                <th class="bg-info text-white">COMPARTILHAMENTO DE ESTRUTURA?</th>
+                <th class="bg-info text-white">COMPARTILHAMENTO DE SGD?</th>
+                <th class="bg-info text-white">UTILIZAÇÃO DE RECURSO?</th>
+                <th class="bg-info text-white">NÚMERO DO SGD</th>
+                <th class="bg-info text-white">HORA PREVISTA INÍCIO DO SGD</th>
+                <th class="bg-info text-white">HORA PREVISTA TÉRMINO DO SGD</th>
+                <th class="bg-info text-white">QUANTIDADE DE CLIENTES AFETADOS</th>
+                <th class="bg-info text-white">MOTIVO DO CANCELAMENTO / PARCIAL / ADIAMENTO</th>
+                <th class="bg-info text-white">OBSERVAÇÃO DO CANCELAMENTO / PARCIAL / ADIAMENTO</th>
+                <th class="bg-info text-white">EXISTEM IMPEDIMENTOS PARA PROGRAMAÇÃO?</th>
+                <th class="bg-info text-white">QUANTIDADE DE SERVIÇOS NO DISPOSITIVO</th>
+                <th class="bg-info text-white">DISPOSITIVO PENDENTE DE PROGRAMAÇÃO NO CIRCUITO?</th>
+                <th class="bg-info text-white">CLIENTES DO POLO</th>
+                <th class="bg-info text-white">CLIENTES DO CONJUNTO</th>
+                <th class="bg-info text-white">CLIENTES DO DISPOSITIVO</th>
+                <th class="bg-info text-white">POTENCIAL DE IMPACTO DO CONJUNTO NA  - QUANTIDADE DE CLIENTES</th>
+                <th class="bg-info text-white">POTENCIAL DE IMPACTO DO DISPOSITIVO NO CONJUNTO - QUANTIDADE DE CLIENTES</th>
+                <th class="bg-info text-white">POTENCIAL DE IMPACTO DO DISPOSITIVO NO POLO - QUANTIDADE DE CLIENTES</th>
+                <th class="bg-info text-white">DEC  ATUAL (TAM)</th>
+                <th class="bg-info text-white">FEC ATUAL (TAM)</th>
+                <th class="bg-info text-white">META DEC (TAM)</th>
+                <th class="bg-info text-white">META FEC  (TAM)</th>
+                <th class="bg-info text-white">META DEC (TAM) -140%</th>
+                <th class="bg-info text-white">META FEC  (TAM) - 122%</th>
+                <th class="bg-info text-white">DESVIO DEC</th>
+                <th class="bg-info text-white">DESVIO FEC</th>
+                <th class="bg-info text-white">GAP CONH DEZ ANEEL</th>
+                <th class="bg-info text-white">GAP CONI DEZ ANEEL</th>
+                <th class="bg-info text-white">ESTADO  CONJUNTO NO DEC LIMITE</th>
+                <th class="bg-info text-white">ESTADO  CONJUNTO NO FEC LIMITE</th>
+                <th class="bg-info text-white">POTENCIAL DO SERVIÇO CONH/MÊS</th>
+                <th class="bg-info text-white">POTENCIAL DO SERVIÇO CONI/MÊS</th>
+                <th class="bg-info text-white">PROJEÇÃO IMPACTO PROGRAMADAS CONH</th>
+                <th class="bg-info text-white">PROJEÇÃO IMPACTO PROGRAMADAS CONI</th>
+                <th class="bg-info text-white">PROJEÇÃO DE MELHORIA CONH/MÊS</th>
+                <th class="bg-info text-white">PROJEÇÃO DE MELHORIA CONI/MÊS</th>
+                <th class="bg-info text-white">VALOR TOTAL</th>
+                <th class="bg-info text-white">LOCAL</th>
+                <th class="bg-info text-white">ESTADO DO CONJUNTO</th>
+                <th class="bg-info text-white">POSSUI RANK</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr align="center">
+                    <td>@item.PLA_RANKING_FEC_INICIAL</td>
+                    <td>@item.PLA_CAUSA_FEC_INICIAL</td>
+                    <td>@item.PLA_RANKING_FEC_ATUAL</td>
+                    <td>@item.PLA_CAUSA_FEC_ATUAL</td>
+                    <td>@item.PLA_RANKING_DEC_INICIAL</td>
+                    <td>@item.PLA_CAUSA_DEC_INICIAL</td>
+                    <td>@item.PLA_RANKING_DEC_ATUAL</td>
+                    <td>@item.PLA_CAUSA_DEC_ATUAL</td>
+                    <td>@item.PLA_RANKING_FEC_INICIAL_CONJ</td>
+                    <td>@item.PLA_CAUSA_FEC_INICIAL_CONJ</td>
+                    <td>@item.PLA_RANKING_FEC_ATUAL_CONJ</td>
+                    <td>@item.PLA_CAUSA_FEC_ATUAL_CONJ</td>
+                    <td>@item.PLA_RANKING_DEC_INICIAL_CONJ</td>
+                    <td>@item.PLA_CAUSA_DEC_INICIAL_CONJ</td>
+                    <td>@item.PLA_RANKING_DEC_ATUAL_CONJ</td>
+                    <td>@item.PLA_CAUSA_DEC_ATUAL_CONJ</td>
+                    <td>@item.PLA_RANKING_FEC_INICIAL_REGION</td>
+                    <td>@item.PLA_CAUSA_FEC_INICIAL_REGION</td>
+                    <td>@item.PLA_RANKING_FEC_ATUAL_REGION</td>
+                    <td>@item.PLA_CAUSA_FEC_ATUAL_REGION</td>
+                    <td>@item.PLA_RANKING_DEC_INICIAL_REGION</td>
+                    <td>@item.PLA_CAUSA_DEC_INICIAL_REGION</td>
+                    <td>@item.PLA_RANKING_DEC_ATUAL_REGION</td>
+                    <td>@item.PLA_CAUSA_DEC_ATUAL_REGION</td>
+                    <td>@item.PLA_EVOLUCAO_FEC</td>
+                    <td>@item.PLA_EVOLUCAO_DEC</td>
+                    <td>@item.PLA_RANKING_CLIENTE</td>
+                    <td>@item.PLA_REGIONAL</td>
+                    <td>@item.PLA_BASE</td>
+                    <td>@item.PLA_CONJUNTO</td>
+                    <td>@item.PLA_ALIMENTADOR</td>
+                    <td>@item.PLA_DISPOSITIVO</td>
+                    <td>@item.PLA_TIPO_DISPOSITIVO</td>
+                    <td>@item.PLA_ACAO</td>
+                    <td>@item.PLA_UNIDADE</td>
+                    <td>@item.PLA_PROJETO</td>
+                    <td>@item.PLA_QUANTIDADE_EXECUTADA</td>
+                    <td>@item.PLA_DATA_META_CONCLUSAO</td>
+                    <td>@item.PLA_DATA_DE_EXECUCAO</td>
+                    <td>@item.PLA_STATUS_EXECUCAO1</td>
+                    <td>@item.PLA_QUANTIDADE_PLANO_ATUAL</td>
+                    <td>@item.PLA_QUADRIMESTRE_EXECUTAR</td>
+                    <td>@item.PLA_AVANCO</td>
+                    <td>@item.PLA_QUANTIDADE_PENDENTE</td>
+                    <td>@item.PLA_PROCESSO</td>
+                    <td>@item.PLA_DATA_CADASTRO</td>
+                    <td>@item.PLA_PARCEIRA_EXECUCAO</td>
+                    <td>@item.PLA_ALOCACAO_RECURSO</td>
+                    <td>@item.PLA_QUANTIDADE_RECURSO</td>
+                    <td>@item.PLA_STATUS_PROGRAMACAO</td>
+                    <td>@item.PLA_DATA_PROGRAMADA_EXECUCAO</td>
+                    <td>@item.PLA_STATUS_EXECUCAO2</td>
+                    <td>@item.PLA_DATA_REAL_EXECUCAO_ETAPA</td>
+                    <td>@item.PLA_NECESSARIO_DESLIG_PROGRAMA</td>
+                    <td>@item.PLA_META_PROGRAMADA_CONH_MES</td>
+                    <td>@item.PLA_META_PROGRAMADA_CONI_MES</td>
+                    <td>@item.PLA_META_PROGRAMADA_CONH_DIA</td>
+                    <td>@item.PLA_META_PROGRAMADA_CONI_DIA</td>
+                    <td>@item.PLA_HORA_INICIO_OBRA</td>
+                    <td>@item.PLA_HORA_TERMINO_OBRA</td>
+                    <td>@item.PLA_COMPARTILHAMENTO_ESTRUTURA</td>
+                    <td>@item.PLA_COMPARTILHAMENTO_SGD</td>
+                    <td>@item.PLA_UTILIZACAO_RECURSO</td>
+                    <td>@item.PLA_NUMERO_SGD</td>
+                    <td>@item.PLA_HORA_PREVISTA_INICIO_SGD</td>
+                    <td>@item.PLA_HORA_PREVISTA_TERMINO_SGD</td>
+                    <td>@item.PLA_QUANTIDADE_CLIENTE_AFETADO</td>
+                    <td>@item.PLA_MOTIVO_CANCELAMENTO</td>
+                    <td>@item.PLA_OBSERVACAO_CANCELAMENTO</td>
+                    <td>@item.PLA_EXISTE_IMPEDIMENTO_PROGRAM</td>
+                    <td>@item.PLA_QTD_SERVICOS_DISPOSITIVO</td>
+                    <td>@item.PLA_DISPOSITIVO_PENDENTE_PRO</td>
+                    <td>@item.PLA_CLIENTES_FATURADOS</td>
+                    <td>@item.PLA_CLIENTES_INSTALADOS</td>
+                    <td>@item.PLA_TOTAL_CLIENTES</td>
+                    <td>@item.PLA_POTENCIAL_IMPACTO</td>
+                    <td>@item.PLA_POTENCIAL_IMPACTO_CONJUNTO</td>
+                    <td>@item.PLA_POTENCIAL_IMPACTO_REGIONAL</td>
+                    <td>@item.PLA_DEC_TAM_2019</td>
+                    <td>@item.PLA_FEC_TAM_2019</td>
+                    <td>@item.PLA_DEC_META_ANEEL_2019</td>
+                    <td>@item.PLA_FEC_META_ANEEL_2019</td>
+                    <td>@item.PLA_META_DEC_TAM_140</td>
+                    <td>@item.PLA_META_FEC_TAM_122</td>
+                    <td>@item.PLA_DESVIO_DEC</td>
+                    <td>@item.PLA_DESVIO_FEC</td>
+                    <td>@item.PLA_GAP_CONH_DEZ_ANEEL</td>
+                    <td>@item.PLA_GAP_CONI_DEZ_ANEEL</td>
+                    <td>@item.PLA_ESTADO_CONJUNTO_DEC_LIMITE</td>
+                    <td>@item.PLA_ESTADO_CONJUNTO_FEC_LIMITE</td>
+                    <td>@item.PLA_POTENCIAL_SERVICO_CONH_MES</td>
+                    <td>@item.PLA_POTENCIAL_SERVICO_CONI_MES</td>
+                    <td>@item.PLA_PROJECAO_IMPACTO_PROG_CONH</td>
+                    <td>@item.PLA_PROJECAO_IMPACTO_PROG_CONI</td>
+                    <td>@item.PLA_PROJECAO_MELHORIA_CONH_MES</td>
+                    <td>@item.PLA_PROJECAO_MELHORIA_CONI_MES</td>
+                    <td>@item.PLA_VALOR_TOTAL</td>
+                    <td>@item.PLA_LOCAL</td>
+                    <td>@item.PLA_ESTADO_CONJUNTO</td>
+                    <td>@item.PLA_POSSUI_RANK</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="13">
+                    Quantidade de registros: @Model.Count
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

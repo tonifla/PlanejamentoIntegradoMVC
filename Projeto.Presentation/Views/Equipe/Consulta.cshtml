@@ -1,0 +1,149 @@
+﻿@model IEnumerable<Projeto.Presentation.Models.EquipeCadastroViewModel>
+
+<div class="panel panel-default">
+    <table class="table table-hover table-bordered table-striped table-sm"
+           style="border: 3px solid #17a2b8">
+        <thead>
+            <tr align="center">
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model.EQP_TIPO_EQUIPE)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model.EQP_DESCRICAO)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model.EQP_QUANTIDADE)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model.EQP_PARCEIRA)</th>
+                <th colspan="2" class="bg-info text-white">@Html.ActionLink("Adicionar", "Cadastro", "Equipe", new { PLA_REGIONAL = ViewBag.PLA_REGIONAL, viewModel = Model }, new { data_modal = "", @class = "btn btn-secondary pull-right" })</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr align="center">
+                    <td>@Html.DisplayFor(modelItem => item.EQP_TIPO_EQUIPE)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EQP_DESCRICAO)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EQP_QUANTIDADE)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EQP_PARCEIRA)</td>
+
+                    @if (item.EQP_ATIVO == 1)
+                    {
+                        if (item.PodeRemover)
+                        {
+                            <td colspan="@(!item.PodeDesabilitar ? 2 : 1)">@Html.ActionLink("Remover", "Delete", "Equipe", new { tipoEquipe = item.EQP_TIPO_EQUIPE, descricao = item.EQP_DESCRICAO, parceira = item.EQP_PARCEIRA }, new { data_delete = "", @class = "btn btn-warning pull-right" })
+                            </td>
+                        }
+
+                        if (item.PodeDesabilitar)
+                        {
+                            <td colspan="@(!item.PodeRemover ? 2 : 1)">@Html.ActionLink("Desabilitar", "Desabilitar", "Equipe", new { tipoEquipe = item.EQP_TIPO_EQUIPE, descricao = item.EQP_DESCRICAO, parceira = item.EQP_PARCEIRA }, new { data_delete = "", @class = "btn btn-danger pull-right" })
+                            </td>
+                        }                        
+                    }
+                    else
+                    {
+                        <td colspan="2">Desabilitado</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+
+    function getURLParameter(url, name) {
+        return decodeURIComponent((RegExp(name + '=' + '(.+?)(&|$)').exec(url) || [, null])[1]);
+    }
+
+    function removerEquipe(obj) {
+        $.ajax({
+            url: '@Url.Action("Delete", "Equipe")',
+            type: 'POST',
+            data: obj,
+            success: function (result) {
+                if (result.success) {
+                    $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                } else {
+                    console.log('bad');
+                }
+            }
+        });
+
+        return false;
+    }
+
+    function desabilitarEquipe(obj) {
+        $.ajax({
+            url: '@Url.Action("Desabilitar", "Equipe")',
+            type: 'POST',
+            data: obj,
+            success: function (result) {
+                if (result.success) {
+                    $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                } else {
+                    console.log('bad');
+                }
+            }
+        });
+
+        return false;
+    }
+
+    $(document).ready(function () {
+
+        $.ajaxSetup({ cache: false });
+
+        $("a[data-modal]").on("click", function (e) {
+            // hide dropdown if any (this is used wehen invoking modal from link in bootstrap dropdown )
+            //$(e.target).closest('.btn-group').children('.dropdown-toggle').dropdown('toggle');
+
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+
+        $("a[data-delete]").on("click", function (e, b) {
+            let url = e.currentTarget.href;
+
+            var obj = { tipoEquipe: getURLParameter(url, 'tipoEquipe'), descricao: getURLParameter(url, 'descricao'), parceira: getURLParameter(url, 'parceira') };
+
+            if (url.includes('Desabilitar')) {
+                desabilitarEquipe(obj);
+            }
+            else {
+                removerEquipe(obj);
+            }
+
+            //e.stopPropagation();
+            e.preventDefault();
+
+            return false;
+        });
+    });
+
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
+</script>
+

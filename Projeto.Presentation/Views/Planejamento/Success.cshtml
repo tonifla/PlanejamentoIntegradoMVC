@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div align="left">
+    <br />
+    <h4>Exportação para Excel</h4>
+    <hr />
+</div>
+
+@*Mensagens*@
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<strong class="text-danger">
+    @Html.Raw(@TempData["Mensagem"])
+</strong>
+<br />
+
+@*Botão "voltar"*@
+<br />
+@*<a class="col-sm-1 btn btn-outline-dark btn-md" href="@Request.UrlReferrer" role="button">Voltar</a>*@
+<input class="col-sm-1 btn btn-outline-dark btn-md" display="none" type="button" name="back" value="Voltar" onClick=" javascript:history.back(-1);">

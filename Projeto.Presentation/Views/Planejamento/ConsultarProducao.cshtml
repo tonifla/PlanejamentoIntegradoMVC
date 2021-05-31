@@ -1,0 +1,85 @@
+﻿@model Projeto.Presentation.Models.DTO.PlanejamentoConsultaPainelDTOViewModel
+
+@if (Model.ConsultaPlanejamentoList.Count() > 0)
+{
+    <br />
+    <h4 align="center">PAINEL DE PROGRAMAÇÃO</h4>
+    <hr />
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover table-bordered table-striped table-sm"
+                   style="border: 3px solid #17a2b8">
+                <thead class="thead-light">
+                    <tr align="center">
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_RANKING_DEC_ATUAL_REGION)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_PROJETO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_CONJUNTO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_ALIMENTADOR)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_DISPOSITIVO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_ACAO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_UNIDADE)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_QUANTIDADE_PENDENTE)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_QTD_SERVICOS_DISPOSITIVO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_DISPOSITIVO_PENDENTE_PRO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_GAP_CONH_DEZ_ANEEL)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_GAP_CONI_DEZ_ANEEL)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_VALOR_TOTAL)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ConsultaPlanejamentoList)
+                    {
+                        <tr align="center">
+                            @if (@item.TMP_TIPO_PROCESSO == "DEC")
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.PLA_RANKING_DEC_ATUAL_REGION)</td>
+                            }
+                            @if (@item.TMP_TIPO_PROCESSO == "FEC")
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.PLA_RANKING_FEC_ATUAL_REGION)</td>
+                            }
+                            @if ((@item.TMP_TIPO_PROCESSO == "CLIENTES") || (string.IsNullOrEmpty(@item.TMP_TIPO_PROCESSO)))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.PLA_RANKING_CLIENTE)</td>
+                            }
+
+                            <td>@Html.DisplayFor(modelItem => item.PLA_PROJETO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_CONJUNTO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_ALIMENTADOR)</td>
+
+                            @if (string.IsNullOrEmpty(@item.PLA_DISPOSITIVO))
+                            {
+                                <td> - </td>
+                            }
+                            else
+                            {
+                                <td align="center">
+                                    <a href="/Planejamento/ConsultaDadosProgramacao?PLA_DISPOSITIVO=@item.PLA_DISPOSITIVO&PLA_PROJETO=@item.PLA_PROJETO&ConsultarProgramacao=true"
+                                       class="btn btn-primary btn-sm w-100">
+                                        @Html.DisplayFor(modelItem => item.PLA_DISPOSITIVO)
+                                    </a>
+                                </td>
+                            }
+                            <td>@Html.DisplayFor(modelItem => item.PLA_ACAO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_UNIDADE)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_QUANTIDADE_PENDENTE)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_QTD_SERVICOS_DISPOSITIVO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_DISPOSITIVO_PENDENTE_PRO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_GAP_CONH_DEZ_ANEEL)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_GAP_CONI_DEZ_ANEEL)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_VALOR_TOTAL)</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="13">
+                            Quantidade de registros: @Model.ConsultaPlanejamentoList.Count
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+

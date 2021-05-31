@@ -1,0 +1,232 @@
+﻿@model Projeto.Presentation.Models.DTO.PlanejamentoConsultaPainelDTOViewModel
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@*Botão "voltar"*@
+@*<br />
+<a class="col-sm-1 btn btn-outline-dark btn-md" href="@Request.UrlReferrer" role="button">Voltar</a>
+<input class="col-sm-1 btn btn-outline-dark btn-md" display="none" type="button" name="back" value="Voltar" onClick=" javascript:history.back(-1);">*@
+
+@*Mensagens*@
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<strong class="text-danger">
+    @Html.Raw(@TempData["Mensagem"])
+</strong>
+<br />
+
+@using (Html.BeginForm("ConsultaDadosProgramacao", "Planejamento", FormMethod.Get, new { name = "frmsearch", id = "frmsearch" }))
+{
+    <div class="container-painel">
+        <div class="row">
+            <div>
+                @Html.HiddenFor(model => model.PLA_IDENTIFICADOR)
+                @Html.HiddenFor(model => model.PLA_REGIONAL)
+                @Html.HiddenFor(model => model.PLA_GAP_CONH_DEZ_ANEEL)
+                @Html.HiddenFor(model => model.PLA_GAP_CONI_DEZ_ANEEL)
+
+                <label>Origem(Processo) :</label>
+                @Html.TextBoxFor(model => model.PLA_PROCESSO,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_PROCESSO" })
+                <br />
+                <label>Selecione o projeto:</label>
+                @Html.DropDownListFor(model => model.PLA_PROJETO,
+                Model.ProjetosList,
+                new { @class = "form-control", id = "PLA_PROJETO", @onchange = "projetoChangeEvent(this.value)" })
+                <br />
+                <label>OT Correção:</label>
+                @Html.TextBoxFor(model => model.OTCorrecao,
+                new { @class = "form-control", @readonly = "readonly", id = "OTCorrecao" })
+                <br />
+                <label>Conjunto:</label>
+                @Html.TextBoxFor(model => model.PLA_CONJUNTO,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_CONJUNTO" })
+                <br />
+                <label>Alimentador:</label>
+                @Html.TextBoxFor(model => model.PLA_ALIMENTADOR,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_ALIMENTADOR" })
+                <br />
+                <label>Dispositivo:</label>
+                @Html.TextBoxFor(model => model.PLA_DISPOSITIVO,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_DISPOSITIVO" })
+                <br />
+                <label>Ação:</label>
+                @Html.TextBoxFor(model => model.PLA_ACAO,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_ACAO" })
+                <br />
+                <label>Unidade:</label>
+                @Html.TextBoxFor(model => model.PLA_UNIDADE,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_UNIDADE" })
+                <br />
+                <label>Quantidade clientes:</label>
+                @Html.TextBoxFor(model => model.PLA_TOTAL_CLIENTES,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_TOTAL_CLIENTES" })
+                <br />
+                <label>Status da programação:</label>
+                @Html.TextBoxFor(model => model.PLA_STATUS_PROGRAMACAO,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_STATUS_PROGRAMACAO" })
+                <br />
+                <label>Quantidade total inicial:</label>
+                @Html.TextBoxFor(model => model.PLA_QUANTIDADE_PLANO_ATUAL,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_QUANTIDADE_PLANO_ATUAL" })
+                <br />
+                <label>Quantidade pendente:</label>
+                @Html.TextBoxFor(model => model.PLA_QUANTIDADE_PENDENTE,
+                new { @class = "form-control", @readonly = "readonly", id = "PLA_QUANTIDADE_PENDENTE" })
+                <br />
+            </div>
+
+
+            @if (Model.ConsultaProgramacaoList.Count() > 0)
+            {
+                <div class="col-sm-9" align="center">
+                    <h4> HISTÓRICO DAS PROGRAMAÇÕES</h4>
+                    <hr />
+                    <div>
+                        <div class="container-fluid">
+                            <div class="row" align="center">
+                                <table class="table table-hover table-bordered table-striped table-sm"
+                                       style="border: 3px solid #17a2b8">
+                                    <thead class="thead-light">
+                                        <tr align="center">
+                                            <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaProgramacaoList[0].PRO_IDENTIFICADOR)</th>
+                                            <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaProgramacaoList[0].PRO_STATUS)</th>
+                                            <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaProgramacaoList[0].PRO_QUANTIDADE_A_PROGRAMAR)</th>
+                                            <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaProgramacaoList[0].PRO_DATA_PROGRAMACAO)</th>
+                                            <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaProgramacaoList[0].PRO_HORA_INICIO_PROGRAMACAO)</th>
+                                            <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaProgramacaoList[0].PRO_HORA_TERMINO_PROGRAMACAO)</th>
+                                            <th class="bg-info text-white">Operação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ConsultaProgramacaoList)
+                                        {
+                                            <tr align="center">
+                                                <td>@Html.DisplayFor(modelItem => item.PRO_IDENTIFICADOR)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.PRO_STATUS)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.PRO_QUANTIDADE_A_PROGRAMAR)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.PRO_DATA_PROGRAMACAO)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.PRO_HORA_INICIO_PROGRAMACAO)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.PRO_HORA_TERMINO_PROGRAMACAO)</td>
+                                                <td align="center">
+                                                    <a href="/Programacao/Edicao?PRO_IDENTIFICADOR=@item.PRO_IDENTIFICADOR"
+                                                       class="btn btn-primary btn-sm w-100">
+                                                        Editar
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="7">
+                                                Quantidade de registros: @Model.ConsultaProgramacaoList.Count
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+}
+
+
+<div align="left">
+    <hr />
+    <button class="btn btn-primary"
+            type="submit"
+            data-toggle="tooltip"
+            data-placement="top"
+            id="RealizarProgramacao" name="RealizarProgramacao" value="true" onclick="onClickBotaoProgramar()">
+        Programar
+    </button>
+</div>
+
+<br />
+<br />
+
+<script src="~/Scripts/jquery-3.0.0.min.js"></script>
+
+<style>
+    .container-painel {
+        padding: 2%;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    var urlConsultaDadosProgramacao = '@Url.Action("ConsultaDadosProgramacao", "Planejamento")';
+
+    document.getElementById("RealizarProgramacao").disabled = true;
+
+    var id;
+    var regional;
+    var dispositivo;
+    var projeto;
+    var unidade;
+    var quantidadeCliente;
+    var impactoCONH;
+    var impactoCONI;
+
+    id = $('#PLA_IDENTIFICADOR').val();
+    dispositivo = $('#PLA_DISPOSITIVO').val();
+    projeto = $('#PLA_PROJETO').val();
+    //projeto = $('#PLA_PROJETO option:selected').val();
+    unidade = $('#PLA_UNIDADE').val();
+    quantidadeCliente = $('#PLA_TOTAL_CLIENTES').val();
+
+    //TODO: adicionar regra da quantidade
+    //if ((id != "") && (dispositivo != "") && (projeto != "") && (quantidadeCliente > 0)) {
+    if ((id != "") && (dispositivo != "") && (projeto != "")) {
+        document.getElementById("RealizarProgramacao").disabled = false;
+    }
+
+    function projetoChangeEvent(projeto) {
+        id = $('#PLA_IDENTIFICADOR').val();
+        dispositivo = $('#PLA_DISPOSITIVO').val();
+        projeto = $('#PLA_PROJETO').val();
+        //projeto = $('#PLA_PROJETO option:selected').val();
+        quantidadeCliente = $('#PLA_TOTAL_CLIENTES').val();
+
+        if ((dispositivo != "") && (projeto != "")) {
+            window.location.href = urlConsultaDadosProgramacao + "?PLA_DISPOSITIVO=" + dispositivo + "&PLA_PROJETO=" + projeto + "&ConsultarProgramacao=true";
+        }
+        else {
+            window.location.href = urlConsultaDadosProgramacao + "?PLA_DISPOSITIVO=" + dispositivo + "&PLA_PROJETO=" + projeto + "&ConsultarProgramacao=false";
+        };
+    }
+
+    function onClickBotaoProgramar() {
+        id = $('#PLA_IDENTIFICADOR').val();
+        regional = $('#PLA_REGIONAL').val();
+        dispositivo = $('#PLA_DISPOSITIVO').val();
+        projeto = $('#PLA_PROJETO').val();
+        //projeto = $('#PLA_PROJETO option:selected').val();
+        unidade = $('#PLA_UNIDADE').val();
+        quantidadeCliente = $('#PLA_TOTAL_CLIENTES').val();
+        impactoCONH = $('#PLA_GAP_CONH_DEZ_ANEEL').val();
+        impactoCONI = $('#PLA_GAP_CONI_DEZ_ANEEL').val();
+
+        if ((id != "") && (dispositivo != "") && (projeto != "") && (quantidadeCliente > 0)) {
+            window.location.href = "/Programacao/Cadastro?PRO_PLA_IDENTIFICADOR=" + id + "&PLA_REGIONAL=" + regional + "&PLA_DISPOSITIVO=" + dispositivo + "&PRO_DISPOSITIVO=" + dispositivo + "&PLA_PROJETO=" + projeto + "&PLA_UNIDADE=" + unidade + "&PRO_QUANTIDADE_CLIENTE=" + quantidadeCliente + "&PRO_IMPACTO_CONH=" + impactoCONH + "&PRO_IMPACTO_CONI=" + impactoCONI;
+        }
+        else {
+            alert('TODO: verificar quantidade');
+        };
+    }
+</script>
+
+

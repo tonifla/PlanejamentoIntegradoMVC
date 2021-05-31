@@ -1,0 +1,107 @@
+﻿@model List<Projeto.Presentation.Models.PlanejamentoConsultaPainelViewModel>
+
+@{
+    /**/
+
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<br />
+<a href="~/Planejamento/ConsultaPainel"
+   class="btn btn-success btn-sm">
+    Voltar ao painel de produção
+</a>
+
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<strong class="text-danger">
+    @Html.Raw(@TempData["Mensagem"])
+</strong>
+<br />
+
+<br />
+<h4 align="center">PAINEL DE PROGRAMAÇÃO</h4>
+<hr />
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-hover table-bordered table-striped table-sm"
+           style="border: 3px solid #17a2b8">
+        <thead>
+            <tr align="center">
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_RANKING_DEC_ATUAL_REGION)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_PROJETO)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_CONJUNTO)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_ALIMENTADOR)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_DISPOSITIVO)</th>
+                <th class="bg-info text-white w-75">@Html.DisplayNameFor(model => model[0].PLA_ACAO)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_UNIDADE)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_QUANTIDADE_EXECUTADA)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_QTD_SERVICOS_DISPOSITIVO)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_QUANTIDADE_PENDENTE)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_GAP_CONH_DEZ_ANEEL)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_GAP_CONI_DEZ_ANEEL)</th>
+                <th class="bg-info text-white">@Html.DisplayNameFor(model => model[0].PLA_VALOR_TOTAL)</th>
+                @*<th class="bg-info text-white">RANKING POLO</th>
+                <th class="bg-info text-white">PROJETO</th>
+                <th class="bg-info text-white">CONJUNTO</th>
+                <th class="bg-info text-white">ALIMENTADOR</th>
+                <th class="bg-info text-white">DISPOSITIVO</th>
+                <th class="bg-info text-white w-75">AÇÃO</th>
+                <th class="bg-info text-white">UNIDADE</th>
+                <th class="bg-info text-white">QUANTIDADE</th>
+                <th class="bg-info text-white">TOTAL DE AÇÕES</th>
+                <th class="bg-info text-white">AÇÕES PENDENTES</th>
+                <th class="bg-info text-white">CONH</th>
+                <th class="bg-info text-white">CONI</th>
+                <th class="bg-info text-white">VALOR</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr align="center">
+                    @if (@item.TMP_TIPO_PROCESSO == "DEC")
+                    {
+                        <td>@item.PLA_RANKING_DEC_ATUAL_REGION</td>
+                    }
+                    @if (@item.TMP_TIPO_PROCESSO == "FEC")
+                    {
+                        <td>@item.PLA_RANKING_FEC_ATUAL_REGION</td>
+                    }
+                    @if ((@item.TMP_TIPO_PROCESSO == "CLIENTES") || (string.IsNullOrEmpty(@item.TMP_TIPO_PROCESSO)))
+                    {
+                        <td>@item.PLA_RANKING_CLIENTE</td>
+                    }
+
+                    <td>@item.PLA_PROJETO</td>
+                    <td>@item.PLA_CONJUNTO</td>
+                    <td>@item.PLA_ALIMENTADOR</td>
+                    <td align="center">
+                        <a href="/Programacao/Edicao?PLA_IDENTIFICADOR=@item.PLA_IDENTIFICADOR"
+                           class="btn btn-primary btn-sm w-100">
+                            @item.PLA_DISPOSITIVO
+                        </a>
+                    </td>
+                    <td>@item.PLA_ACAO</td>
+                    <td>@item.PLA_UNIDADE</td>
+                    <td>@item.PLA_QUANTIDADE_EXECUTADA</td>
+                    <td>@item.PLA_QTD_SERVICOS_DISPOSITIVO</td>
+                    <td>@item.PLA_QUANTIDADE_PENDENTE</td>
+                    <td>@item.PLA_GAP_CONH_DEZ_ANEEL</td>
+                    <td>@item.PLA_GAP_CONI_DEZ_ANEEL</td>
+                    <td>@item.PLA_VALOR_TOTAL</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="13">
+                    Quantidade de registros: @Model.Count
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}

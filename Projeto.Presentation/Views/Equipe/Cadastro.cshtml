@@ -1,0 +1,126 @@
+﻿@model Projeto.Presentation.Models.EquipeCadastroViewModel
+
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">Cadastro de equipe</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="modal-body">
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.EQP_PRO_IDENTIFICADOR)
+            @Html.HiddenFor(model => model.PLA_REGIONAL)
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Selecione o tipo de equipe:")
+                    <br />
+                    @Html.DropDownListFor(model => model.EQP_TIPO_EQUIPE,
+                    Model.TiposDeEquipeList,
+                    "Escolha uma opção",
+                    new { @class = "form-control", id = "tipoEquipe", @onchange = "ObterDescricoesPorRecurso(this)" } )
+                    @Html.ValidationMessageFor(model => model.EQP_TIPO_EQUIPE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Selecione a descrição:")
+                    <br />
+                    @Html.DropDownListFor(model => model.EQP_DESCRICAO,
+                    Model.DescricoesList,
+                    "Escolha uma opção",
+                    new { @class = "form-control", id = "descricoes", @onchange = "ObterQuantidadePorRecurso(this)" } )
+                    @Html.ValidationMessageFor(model => model.EQP_DESCRICAO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Selecione a quantidade:")
+                    <br />
+                    @Html.EditorFor(model => model.EQP_QUANTIDADE,
+                    new { htmlAttributes = new { @class = "form-control", id = "quantidades", @onchange = "ObterParceiraPorRecurso(this)" } })
+                    @Html.ValidationMessageFor(model => model.EQP_QUANTIDADE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Selecione a parceira:")
+                    <br />
+                    @Html.EditorFor(model => model.EQP_PARCEIRA,
+                    new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EQP_PARCEIRA, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input class="btn btn-primary" id="gravarEquipe" type="submit" value="Gravar" />
+        <button class="btn btn-danger" id="cancelarEquipe" type="button" data-dismiss="modal">Cancelar</button>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    var regional;
+    var tipoEquipe;
+    var descricao;
+    var quantidade;
+    var parceira;
+
+    function ObterDescricoesPorRecurso(element) {
+        regional = $('#PLA_REGIONAL').val();
+        tipoEquipe = $(element).val();
+
+            if (tipoEquipe) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("ObterDescricoesPorRecurso", "Equipe")',
+                    data: { regional: regional, tipoDeEquipe: tipoEquipe },
+                    success: function (data) {
+                        $('#quantidades').val('');
+                        $('#descricoes').empty();
+
+                        if (data.length > 0) {
+                            $('#descricoes').prop("disabled", false);
+                            $('#descricoes').append($("<option>").val("").text("Escolha uma opção"));                            
+                            $(data).each(function (index, item) {
+                                $('#descricoes').append($("<option>").val(item.Value).text(item.Value));
+                            });
+                        } else {
+                            $('#descricoes').append($("<option>").val("").text("Dados não encontrados"));
+                        }
+                    }
+                });
+            }
+        }
+
+    function ObterQuantidadePorRecurso(element) {
+        regional = $('#PLA_REGIONAL').val();
+        tipoEquipe = $('#tipoEquipe').val();
+        descricao = $(element).val();
+        
+        if (descricao) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("ObterQuantidadePorRecurso", "Equipe")',
+                    data: { regional: regional, tipoDeEquipe: tipoEquipe, descricao: descricao },
+                    success: function (data) {
+                        if (data > 0) {
+                            $('#quantidades').prop("disabled", false);
+                            $('#quantidades').val(data);
+                        } else {
+                            $('#quantidades').prop("disabled", true);
+                            $('#quantidades').empty;
+                        }
+                    }
+                });
+        }
+    }
+
+</script>

@@ -1,0 +1,129 @@
+﻿@using Projeto.Entities
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Projeto PIP</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/css/principal.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark justify-content-between" style="padding-top: 0px;
+    padding-bottom: 0px;">
+            <a class="navbar-brand" href="#">
+                <img src="~/Images/-logo.png" width="160" height="80" alt="">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Sistema para Planejamento Integrado da Produção (PIP) <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+                @{Usuario usuario = (Usuario)Session["usuarioLogado"]; }
+                @if (usuario != null)
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">@usuario.USU_NOME</a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="@Url.Action("Logout","Login")">Sair</a>
+                            </div>
+                        </li>
+                    </ul>
+                }
+            </div>
+        </nav>
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="padding-top: 0px;
+    padding-bottom: 0px;">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/Index">Página inicial</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Planejamento
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @*TODO: remover dps*@
+                            @*<a class="dropdown-item" href="~/Planejamento/ConsultaDadosProgramacao?PLA_DISPOSITIVO=MC24269">Teste para histórico</a>*@
+                            <a class="dropdown-item" href="@Url.Action("ConsultaPainel", "Planejamento")">Painel de Produção</a>
+                            @*TODO: remover dps*@
+                            @*<a class="dropdown-item" href="~/Planejamento/ConsultaPIP">Planejamento Integrado da Produção (PIP)</a>*@
+                        </div>
+                    </li>
+
+                    @*TODO: remover dps*@
+                    @*<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Programação
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="~/Programacao/Cadastro?PRO_PLA_IDENTIFICADOR=4222&PLA_REGIONAL=MACA%C3%89&PLA_DISPOSITIVO=MC24269&PRO_DISPOSITIVO=MC24269&PLA_PROJETO=802408_MC24269&PLA_UNIDADE=un&PRO_QUANTIDADE_CLIENTE=140&PRO_IMPACTO_CONH=149.975&PRO_IMPACTO_CONI=16.300">Teste para programar</a>
+                <a class="dropdown-item" href="~/Programacao/Cadastro">Cadastro</a>
+                <a class="dropdown-item" href="~/Programacao/Consulta">Consulta</a>
+            </div>
+        </li>*@
+
+                    @*TODO: remover dps*@
+                    @*<li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Equipe
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="~/Equipe/Cadastro?EQP_PRO_IDENTIFICADOR=11&PLA_REGIONAL=MACA%C3%89">Teste para inserir equipe</a>
+                <a class="dropdown-item" href="~/Equipe/Cadastro">Cadastro</a>
+                <a class="dropdown-item" href="~/Equipe/Consulta">Consulta</a>
+            </div>
+        </li>*@
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Funcionalidades
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="@Url.Action("Exportar", "Planejamento")">Exportar dados para o Excel</a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <div id="janelacarregamento" class="modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <br />
+                    <br />
+                    Processando, por favor aguarde.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

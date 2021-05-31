@@ -1,0 +1,490 @@
+﻿@model Projeto.Presentation.Models.DTO.PlanejamentoConsultaPainelDTOViewModel
+
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<strong class="text-danger">
+    @Html.Raw(@TempData["Mensagem"])
+</strong>
+
+@using (Html.BeginForm("ConsultaPainel", "Planejamento", FormMethod.Get, new { name = "frmConsultaPainel", id = "frmConsultaPainel" }))
+{
+    <div class="container-painel">
+        <div class="row">
+            <div>
+                <br />
+                <hr />
+                <h4 align="left">Filtros</h4>
+                <hr />
+
+                <label>Selecione a regional:</label>
+                @Html.DropDownListFor(model => model.PLA_REGIONAL,
+                Model.RegionaisList,
+                new { @class = "form-control", id = "PLA_REGIONAL", @onchange = "carregaTodosOsGraficos(true)" })
+                <br />
+
+                <label> Selecione o processo:</label>
+                @Html.DropDownListFor(model => model.PLA_PROCESSO,
+                Model.ProcessosList,
+                new { @class = "form-control", id = "PLA_PROCESSO",  @onchange= "preencheTipoDeProcesso(this)" })
+                <br />
+
+                <label> Selecione o indicador:</label>
+                @Html.DropDownListFor(model => model.TIP_TIPO_PROCESSO,  Model.TiposDeProcessosList,
+                        new { @class = "form-control", id = "TIP_TIPO_PROCESSO", @onchange = "preencheEstadoDoConjunto(this)" })
+                <br />
+
+                <label> Selecione o estado do conjunto:</label>
+                @Html.DropDownListFor(model => model.EstadoDoConjunto, Model.EstadosDosConjuntosList,
+                    new { @class = "form-control", id = "EstadoDoConjunto", onchange = "preencheConjunto(this)" })
+                <br />
+
+                <label> Selecione o conjunto:</label>
+                @Html.DropDownListFor(model => model.PLA_CONJUNTO, Model.ConjuntosList,
+                    new { @class = "form-control", id = "PLA_CONJUNTO", onchange = "preencherListaDeStatusDaProgramacao(this)" })
+                <br />
+
+                <label> Selecione o status da programação:</label>
+                @Html.DropDownListFor(model => model.PLA_STATUS_PROGRAMACAO, Model.StatusDasProgramacoesList,
+                    new { @class = "form-control", id = "PLA_STATUS_PROGRAMACAO" })
+                <br />
+
+
+
+                @*<label>Selecione a regional:</label>
+                    @Html.DropDownListFor(model => model.PLA_REGIONAL,
+                    Model.RegionaisList,
+                    new { @class = "form-control", id = "PLA_REGIONAL", @onchange = "regionalChangeEvent(this)" })
+                    <br />
+
+                    <label> Selecione o processo:</label>
+                    @Html.DropDownListFor(model => model.PLA_PROCESSO,
+                    Model.ProcessosList,
+                    new { @class = "form-control", id = "PLA_PROCESSO", @onchange = "processoChangeEvent(this)" })
+                    <br />
+
+                    <label> Selecione o indicador:</label>
+                    @Html.DropDownListFor(model => model.TIP_TIPO_PROCESSO,
+                    Model.TiposDeProcessosList,
+                    new { @class = "form-control", id = "TIP_TIPO_PROCESSO", @onchange = "tipoDeProcessoChangeEvent(this)" })
+                    <br />
+
+                    <label> Selecione o estado do conjunto:</label>
+                    @Html.DropDownListFor(model => model.EstadoDoConjunto,
+                    Model.EstadosDosConjuntosList,
+                    new { @class = "form-control", id = "EstadoDoConjunto", @onchange = "estadoDoConjuntoChangeEvent(this)" })
+                    <br />
+
+                    <label> Selecione o conjunto:</label>
+                    @Html.DropDownListFor(model => model.PLA_CONJUNTO,
+                    Model.ConjuntosList,
+                    new { @class = "form-control", id = "PLA_CONJUNTO", @onchange = "conjuntoChangeEvent(this)" })
+                    <br />
+
+                    <label> Selecione o status da programação:</label>
+                    @Html.DropDownListFor(model => model.PLA_STATUS_PROGRAMACAO,
+                    Model.StatusDasProgramacoesList,
+                    new { @class = "form-control", id = "PLA_STATUS_PROGRAMACAO", @onchange = "statusDaProgramacaoChangeEvent(this)" })
+                    <br />*@
+                <hr />
+                <h4 align="left">Priorização</h4>
+                <hr />
+
+                <label>Selecione um local:</label>
+                <br />
+                @*@Html.CheckBoxFor(model => model.LocalTronco, new { id = "LocalTronco", @onclick = "checkLocalTronco()" })*@
+                @Html.CheckBoxFor(model => model.LocalTronco, new { id = "LocalTronco" })
+                @Html.LabelFor(model => model.LocalTronco)
+                <br />
+                @Html.CheckBoxFor(model => model.LocalRamal, new { id = "LocalRamal" })
+                @Html.LabelFor(model => model.LocalRamal)
+                <br />
+
+                <hr />
+                <h6><u>Painel de atualização:</u></h6>
+                <label>PEN/NPEN: 21/10/2019</label>
+                <br />
+                <label>Qualidade: 21/10/2019</label>
+                <br />
+                <label>Manutenção: 21/10/2019</label>
+                <br />
+                <label>Obras: 21/10/2019</label>
+                <br />
+                <hr />
+
+                <div align="center">
+                    <button class="btn btn-primary"
+                            type="submit"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            @*id="RealizarConsulta" name="RealizarConsulta" value="true" onclick="onClickBotaoConsultar()">*@
+                            id="RealizarConsulta" name="RealizarConsulta" value="true" onclick="return validateForm();">
+                        Consultar painel de programação
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-sm-9">
+                @*Carrega os gráficos*@
+                @if (true)
+                {
+                    Html.RenderPartial("_Graficos");
+                }
+            </div>
+        </div>
+
+    </div>
+
+    //TODO: remover dps
+    @*<input class="btn btn-success"
+               type="submit"
+               data-toggle="tooltip"
+               data-placement="top"
+               id="RealizarConsulta" name="RealizarConsulta" value="true" onclick="onClickBotaoConsultar()"
+               title="Clique para consultar..." />
+        <small><i class="fa fa-search"></i> Consultar painel de programação</small>
+        <br />
+        <br />*@
+
+    //ok
+    @*<div align="center">
+            <button class="btn btn-primary"
+                    type="submit"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    id="RealizarConsulta" name="RealizarConsulta" value="true" onclick="onClickBotaoConsultar()"
+                    title="Clique para consultar...">
+                Consultar painel de programação
+            </button>
+        </div>*@
+}
+<br />
+<br />
+
+@if (Model.ConsultaPlanejamentoList.Count() > 0)
+{
+    <br />
+    <h4 align="center">PAINEL DE PROGRAMAÇÃO</h4>
+    <hr />
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover table-bordered table-striped table-sm"
+                   style="border: 3px solid #17a2b8">
+                <thead class="thead-light">
+                    <tr align="center">
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_RANKING_DEC_ATUAL_REGION)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_PROJETO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_CONJUNTO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_ALIMENTADOR)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_DISPOSITIVO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_ACAO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_UNIDADE)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_QUANTIDADE_PENDENTE)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_QTD_SERVICOS_DISPOSITIVO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_DISPOSITIVO_PENDENTE_PRO)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_GAP_CONH_DEZ_ANEEL)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_GAP_CONI_DEZ_ANEEL)</th>
+                        <th class="bg-info text-white">@Html.DisplayNameFor(model => model.ConsultaPlanejamentoList[0].PLA_VALOR_TOTAL)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ConsultaPlanejamentoList)
+                    {
+                        <tr align="center">
+                            @if (@item.TMP_TIPO_PROCESSO == "DEC")
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.PLA_RANKING_DEC_ATUAL_REGION)</td>
+                            }
+                            @if (@item.TMP_TIPO_PROCESSO == "FEC")
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.PLA_RANKING_FEC_ATUAL_REGION)</td>
+                            }
+                            @if ((@item.TMP_TIPO_PROCESSO == "CLIENTES") || (string.IsNullOrEmpty(@item.TMP_TIPO_PROCESSO)))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.PLA_RANKING_CLIENTE)</td>
+                            }
+
+                            <td>@Html.DisplayFor(modelItem => item.PLA_PROJETO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_CONJUNTO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_ALIMENTADOR)</td>
+
+                            @if (string.IsNullOrEmpty(@item.PLA_DISPOSITIVO))
+                            {
+                                <td> - </td>
+                            }
+                            else
+                            {
+                                <td align="center">
+                                    <a href="~/Planejamento/ConsultaDadosProgramacao?PLA_DISPOSITIVO=@item.PLA_DISPOSITIVO&PLA_PROJETO=@item.PLA_PROJETO&ConsultarProgramacao=true"
+                                       class="btn btn-primary btn-sm w-100">
+                                        @Html.DisplayFor(modelItem => item.PLA_DISPOSITIVO)
+                                    </a>
+                                </td>
+                            }
+                            <td>@Html.DisplayFor(modelItem => item.PLA_ACAO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_UNIDADE)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_QUANTIDADE_PENDENTE)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_QTD_SERVICOS_DISPOSITIVO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_DISPOSITIVO_PENDENTE_PRO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_GAP_CONH_DEZ_ANEEL)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_GAP_CONI_DEZ_ANEEL)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PLA_VALOR_TOTAL)</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="13">
+                            Quantidade de registros: @Model.ConsultaPlanejamentoList.Count
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/amcharts4/core.js"></script>
+<script src="~/Scripts/amcharts4/charts.js"></script>
+<script src="~/Scripts/amcharts4/themes/animated.js"></script>
+<script src="~/Scripts/amcharts4/themes/dataviz.js"></script>
+
+@* css dos gráficos *@
+<link href="~/Content/css/estilo_grafico.css" rel="stylesheet" />
+
+@* scripts dos gráficos*@
+<script src="~/Scripts/PIP/Planejamento/chart-desvio-conh.js"></script>
+<script src="~/Scripts/PIP/Planejamento/chart-desvio-coni.js"></script>
+<script src="~/Scripts/PIP/Planejamento/chart-qualidade-manutencao-01.js"></script>
+<script src="~/Scripts/PIP/Planejamento/chart-qualidade-manutencao-02.js"></script>
+<script src="~/Scripts/PIP/Planejamento/chart-avanco-opex-01.js"></script>
+<script src="~/Scripts/PIP/Planejamento/chart-obras-clientes.js"></script>
+<script src="~/Scripts/PIP/Planejamento/chart-dias-programacao.js"></script>
+<script src="~/Scripts/PIP/Planejamento/functions.js"></script>
+
+@*
+    site:https://www.amcharts.com/demos/clustered-bar-chart/
+    site:https://www.amcharts.com/demos/clustered-bar-chart/?theme=dataviz
+*@
+
+
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    var regionais = '@Url.Action("Regionais", "Planejamento")';
+    var processosPorRegionais = '@Url.Action("ProcessosPorRegionais", "Planejamento")';
+    var tiposDeProcessosPorProcesso = '@Url.Action("TiposDeProcessosPorProcesso", "Planejamento")';
+    var estadosDosConjuntosPorTipoDeProcesso = '@Url.Action("EstadosDosConjuntosPorTipoDeProcesso", "Planejamento")';
+    var conjuntosPorEstadoDoConjunto = '@Url.Action("ConjuntosPorEstadoDoConjunto", "Planejamento")';
+    var statusDasProgramacoesPorConjunto = '@Url.Action("StatusDasProgramacoesPorConjunto", "Planejamento")';
+
+    var urlGraficoDesvioCONH = '@Url.Action("ObterDadosDeDesvioPorRegional", "Planejamento")';
+    var urlGraficoDesvioCONI = '@Url.Action("ObterDadosDeDesvioPorRegional", "Planejamento")';
+    var urlGraficoObrasClientes = '@Url.Action("ObterDadosObrasCliente", "Planejamento")';
+    var urlGraficoQualidadeManutencao01 = '@Url.Action("ObterDadosDeQualidadeManutencao", "Planejamento")';
+    var urlGraficoQualidadeManutencao02 = '@Url.Action("ObterDadosDeQualidadeManutencao", "Planejamento")';
+
+
+
+    var loadGraph = '@ViewBag.LoadGraph';
+
+    if (loadGraph) {
+        carregaTodosOsGraficos();
+    }
+
+
+    var regional;
+    var processo;
+    var tipoDeProcesso;
+    var estadoDoConjunto;
+    var conjunto;
+    var statusDaProgramacao;
+    var localTronco;
+    var localRamal;
+    var bConsultar;
+
+    //var localTronco = document.getElementById('LocalTronco').checked;
+    //var localRamal = document.getElementById('LocalRamal').checked;
+
+    if ($('#PLA_PROCESSO').val() == "CLIENTES") {
+        document.getElementById("TIP_TIPO_PROCESSO").disabled = true;
+        document.getElementById("EstadoDoConjunto").disabled = true;
+        //$('#TipoDeProcesso').empty();
+        //$('#EstadoDoConjunto').empty();
+    }
+    else {
+        document.getElementById("TIP_TIPO_PROCESSO").disabled = false;
+        document.getElementById("EstadoDoConjunto").disabled = false;
+    }
+
+
+    ////botão para consultar
+    //    //Regional
+    //if ((($('#PLA_REGIONAL').val() == null) || ($('#PLA_REGIONAL').val() == "")) ||
+    //    //Processo
+    //    (($('#PLA_PROCESSO').val() == null) || ($('#PLA_PROCESSO').val() == "")) ||
+    //    //Indicador
+    //    (($('#PLA_PROCESSO').val() != "CLIENTES") &&
+    //    (($('#TIP_TIPO_PROCESSO').val() == null) || ($('#TIP_TIPO_PROCESSO').val() == "")))) {
+    //        document.getElementById("RealizarConsulta").disabled = true;
+    //    }
+    //else {
+    //        document.getElementById("RealizarConsulta").disabled = false;
+    //    }
+
+    function regionalChangeEvent(regional) {
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&RealizarConsulta=false";
+    }
+
+    function processoChangeEvent(processo) {
+        regional = $('#PLA_REGIONAL').val();
+
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&RealizarConsulta=false";
+    }
+
+    function tipoDeProcessoChangeEvent(tipoDeProcesso) {
+        regional = $('#PLA_REGIONAL').val();
+        processo = $('#PLA_PROCESSO').val();
+
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&RealizarConsulta=false";
+    }
+
+    function estadoDoConjuntoChangeEvent(estadoDoConjunto) {
+        regional = $('#PLA_REGIONAL').val();
+        processo = $('#PLA_PROCESSO').val();
+        tipoDeProcesso = $('#TIP_TIPO_PROCESSO').val();
+
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&EstadoDoConjunto=" + estadoDoConjunto + "&RealizarConsulta=false";
+    }
+
+    function conjuntoChangeEvent(conjunto) {
+        regional = $('#PLA_REGIONAL').val();
+        processo = $('#PLA_PROCESSO').val();
+        tipoDeProcesso = $('#TIP_TIPO_PROCESSO').val();
+        estadoDoConjunto = $('#EstadoDoConjunto').val();
+
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&EstadoDoConjunto=" + estadoDoConjunto + "&PLA_CONJUNTO=" + conjunto + "&RealizarConsulta=false";
+    }
+
+    function statusDaProgramacaoChangeEvent(statusDaProgramacao) {
+        regional = $('#PLA_REGIONAL').val();
+        processo = $('#PLA_PROCESSO').val();
+        tipoDeProcesso = $('#TIP_TIPO_PROCESSO').val();
+        estadoDoConjunto = $('#EstadoDoConjunto').val();
+        conjunto = $('#PLA_CONJUNTO').val();
+
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&EstadoDoConjunto=" + estadoDoConjunto + "&PLA_CONJUNTO=" + conjunto + "&PLA_STATUS_PROGRAMACAO=" + statusDaProgramacao + "&RealizarConsulta=false";
+    }
+
+    function validateForm() {
+        regional = $('#PLA_REGIONAL').val();
+        processo = $('#PLA_PROCESSO').val();
+        tipoDeProcesso = $('#TIP_TIPO_PROCESSO').val();
+        estadoDoConjunto = $('#EstadoDoConjunto').val();
+        conjunto = $('#PLA_CONJUNTO').val();
+        statusDaProgramacao = $('#PLA_STATUS_PROGRAMACAO').val();
+        localTronco = document.getElementById('LocalTronco').checked;
+        localRamal = document.getElementById('LocalRamal').checked;
+
+        //Regional
+        if ((regional == null) || (regional == "")) {
+            alert('Favor selecionar a regional.');
+            document.frmConsultaPainel.PLA_REGIONAL.focus();
+            return false;
+        }
+
+        //Processo
+        if ((processo == null) || (processo == "")) {
+            alert('Favor selecionar o processo.');
+            document.frmConsultaPainel.PLA_PROCESSO.focus();
+            return false;
+        }
+
+        //Indicador
+        if ((processo != "CLIENTES") &&
+            ((tipoDeProcesso == null) || (tipoDeProcesso == ""))) {
+            alert('Favor selecionar o indicador.');
+            document.frmConsultaPainel.TIP_TIPO_PROCESSO.focus();
+            return false;
+        }
+
+        ////Regional
+        //if (((regional == null) || (regional == "")) ||
+        ////Processo
+        //    ((processo == null) || (processo == "")) ||
+        ////Indicador
+        //    ((processo != "CLIENTES") &&
+        //     ((tipoDeProcesso == null) || (tipoDeProcesso == "")))) {
+        //    alert('Favor preencher os campos obrigatórios.');
+        //    return false;
+        //}
+        //else {
+        //    frmConsultaPainel.submit();
+        //    CarregarGraficos.onClick();
+        //}
+
+            frmConsultaPainel.submit();
+
+    }
+
+
+    function onClickBotaoConsultar() {
+        regional = $('#PLA_REGIONAL').val();
+        processo = $('#PLA_PROCESSO').val();
+        tipoDeProcesso = $('#TIP_TIPO_PROCESSO').val();
+        estadoDoConjunto = $('#EstadoDoConjunto').val();
+        conjunto = $('#PLA_CONJUNTO').val();
+        statusDaProgramacao = $('#PLA_STATUS_PROGRAMACAO').val();
+        localTronco = document.getElementById('LocalTronco').checked;
+        localRamal = document.getElementById('LocalRamal').checked;
+
+        //TODO: remover dps
+        //var realizarConsulta = true;
+        //var url = new URL(window.location);
+        //url = "/Planejamento/ConsultaPainel?Regional=" + regional + "&Processo=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&EstadoDoConjunto=" + estadoDoConjunto + "&PLA_CONJUNTO=" + conjunto + "&PLA_STATUS_PROGRAMACAO=" + statusDaProgramacao + "&LocalTronco=" + localTronco + "&LocalRamal=" + localRamal + "&RealizarConsulta=" + realizarConsulta;
+        //alert("<<< pesquisar >>>  " + url);
+        //window.location.href = url;
+
+        ////Regional
+        //if ((regional == null) || (regional == "")) {
+        //    alert('Favor selecionar a regional.');
+        //    document.frmConsultaPainel.PLA_REGIONAL.focus();
+        //    return false;
+        //}
+
+        ////Processo
+        //if ((processo == null) || (processo == "")) {
+        //    alert('Favor selecionar o processo.');
+        //    document.frmConsultaPainel.PLA_PROCESSO.focus();
+        //    return false;
+        //}
+
+        ////Indicador
+        //if ((processo != "CLIENTES") &&
+        //    ((tipoDeProcesso == null) || (tipoDeProcesso == ""))) {
+        //    alert('Favor selecionar o indicador.');
+        //    document.frmConsultaPainel.TIP_TIPO_PROCESSO.focus();
+        //    return false;
+        //}
+
+        var url = '@Url.Action("ConsultaPainel", "Planejamento")';
+
+        //window.location.href = "/Planejamento/ConsultaPainel?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&EstadoDoConjunto=" + estadoDoConjunto + "&PLA_CONJUNTO=" + conjunto + "&PLA_STATUS_PROGRAMACAO=" + statusDaProgramacao + "&LocalTronco=" + localTronco + "&LocalRamal=" + localRamal + "&RealizarConsulta=true";
+        window.location.href = url + "?PLA_REGIONAL=" + regional + "&PLA_PROCESSO=" + processo + "&TIP_TIPO_PROCESSO=" + tipoDeProcesso + "&EstadoDoConjunto=" + estadoDoConjunto + "&PLA_CONJUNTO=" + conjunto + "&PLA_STATUS_PROGRAMACAO=" + statusDaProgramacao + "&LocalTronco=" + localTronco + "&LocalRamal=" + localRamal + "&RealizarConsulta=true";
+    }
+
+</script>
+
